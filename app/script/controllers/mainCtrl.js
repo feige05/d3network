@@ -7,12 +7,49 @@
 
 define(['d3', 'SM'], function(d3, SM) {
 	function myGraph(el) {
+
+		// Add and remove elements on the graph object
+		this.addNode = function(id) {
+			nodes.push({
+				"id": id
+			});
+			update();
+		}
+
+		this.removeNode = function(id) {
+			var i = 0;
+			var n = findNode(id);
+			while (i < links.length) {
+				if ((links[i]['source'] === n) || (links[i]['target'] == n)) links.splice(i, 1);
+				else i++;
+			}
+			var index = findNodeIndex(id);
+			if (index !== undefined) {
+				nodes.splice(index, 1);
+				update();
+			}
+		}
+
+		this.addLink = function(sourceId, targetId) {
+			var sourceNode = findNode(sourceId);
+			var targetNode = findNode(targetId);
+
+			if ((sourceNode !== undefined) && (targetNode !== undefined)) {
+				links.push({
+					"source": sourceNode,
+					"target": targetNode
+				});
+				update();
+			}
+		}
+
 		var findNode = function(id) {
 			for (var i = 0; i < nodes.length; i++) {
 				if (nodes[i].id === id)
 					return nodes[i]
 			};
 		}
+
 		var findNodeIndex = function(id) {
 			for (var i = 0; i < nodes.length; i++) {
 				if (nodes[i].id === id)
@@ -33,7 +70,6 @@ define(['d3', 'SM'], function(d3, SM) {
 		var node, link;
 		var nodes = force.nodes(),
 			links = force.links();
-
 		var node_drag = d3.behavior.drag()
 			.on("dragstart", dragstart)
 			.on("drag", dragmove)
@@ -58,6 +94,7 @@ define(['d3', 'SM'], function(d3, SM) {
 		}
 
 		function tick() {
+			// body...
 			link.attr("x1", function(d) {
 					return d.source.x;
 				})
@@ -128,40 +165,7 @@ define(['d3', 'SM'], function(d3, SM) {
 			// Restart the force layout.force
 			force.start();
 		}
-		// Add and remove elements on the graph object
-		this.addNode = function(id) {
-			nodes.push({
-				"id": id
-			});
-			update();
-		}
 
-		this.removeNode = function(id) {
-			var i = 0;
-			var n = findNode(id);
-			while (i < links.length) {
-				if ((links[i]['source'] === n) || (links[i]['target'] == n)) links.splice(i, 1);
-				else i++;
-			}
-			var index = findNodeIndex(id);
-			if (index !== undefined) {
-				nodes.splice(index, 1);
-				update();
-			}
-		}
-
-		this.addLink = function(sourceId, targetId) {
-			var sourceNode = findNode(sourceId);
-			var targetNode = findNode(targetId);
-
-			if ((sourceNode !== undefined) && (targetNode !== undefined)) {
-				links.push({
-					"source": sourceNode,
-					"target": targetNode
-				});
-				update();
-			}
-		}
 		// Make it all go
 		update();
 	}

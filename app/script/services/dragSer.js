@@ -11,7 +11,8 @@ return {
 	
     setDragStatus : function(flag){
         this.isDrag = !!flag;
-    },setHoverNode : function(node){
+    },
+    setHoverNode : function(node){
         hoverNode = node;
     },
     getHoverNode : function(){

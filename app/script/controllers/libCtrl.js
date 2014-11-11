@@ -72,6 +72,8 @@ define(['jquery','d3','SM'], function($,d3,SM) {
                     //we're done, end some stuff
                     console.log(SM.dragSer.getHoverNode());//(Ctrl.startX + d.x, d.y + 10);
                     SM.dragSer.setDragStatus(false);
+                    SM.dragSer.removeHoverNode();
+
                     d3.select(this).attr("transform", function(d, i) {
                         return "translate(" + [0, 0] + ")"
                     });

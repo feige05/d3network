@@ -1,140 +1,197 @@
 /**
- * 
+ *
  * @authors feige (feige_hu@foxmail.com)
  * @date    2014-11-10 14:26:54
  * @version $Id$
  */
 
-define(['d3','SM'],function(d3,SM){
+define(['d3', 'SM'], function(d3, SM) {
 	function myGraph(el) {
+		var findNode = function(id) {
+			for (var i = 0; i < nodes.length; i++) {
+				if (nodes[i].id === id)
+					return nodes[i]
+			};
+		}
+		var findNodeIndex = function(id) {
+			for (var i = 0; i < nodes.length; i++) {
+				if (nodes[i].id === id)
+					return i
+			};
+		}
 
-    // Add and remove elements on the graph object
-    this.addNode = function (id) {
-        nodes.push({"id":id});
-        update();
-    }
+		// set up the D3 visualisation in the specified element
+		var w = el.attr('width'),
+			h = el.attr('height');
 
-    this.removeNode = function (id) {
-        var i = 0;
-        var n = findNode(id);
-        while (i < links.length) {
-            if ((links[i]['source'] === n)||(links[i]['target'] == n)) links.splice(i,1);
-            else i++;
-        }
-        var index = findNodeIndex(id);
-        if(index !== undefined) {
-            nodes.splice(index, 1);
-            update();
-        }
-    }
+		var vis = this.vis = el;
+		var force = d3.layout.force()
+			.gravity(.05)
+			.distance(100)
+			.charge(-100)
+			.size([w, h]);
+		var node, link;
+		var nodes = force.nodes(),
+			links = force.links();
 
-    this.addLink = function (sourceId, targetId) {
-        var sourceNode = findNode(sourceId);
-        var targetNode = findNode(targetId);
+		var node_drag = d3.behavior.drag()
+			.on("dragstart", dragstart)
+			.on("drag", dragmove)
+			.on("dragend", dragend);
 
-        if((sourceNode !== undefined) && (targetNode !== undefined)) {
-            links.push({"source": sourceNode, "target": targetNode});
-            update();
-        }
-    }
+		function dragstart(d, i) {
+			force.stop(); // stops the force auto positioning before you start dragging
+		}
 
-    var findNode = function (id) {
-        for (var i=0; i < nodes.length; i++) {
-            if (nodes[i].id === id)
-                return nodes[i]
-        };
-    }
+		function dragmove(d, i) {
+			d.px += d3.event.dx;
+			d.py += d3.event.dy;
+			d.x += d3.event.dx;
+			d.y += d3.event.dy;
+			tick();
+		}
 
-    var findNodeIndex = function (id) {
-        for (var i=0; i < nodes.length; i++) {
-            if (nodes[i].id === id)
-                return i
-        };
-    }
+		function dragend(d, i) {
+			d.fixed = true; // of course set the node to fixed so the force doesn't include the node in its auto positioning stuff
+			tick();
+			force.resume();
+		}
 
-    // set up the D3 visualisation in the specified element
-    var w = el.attr('width'),
-        h = el.attr('height');
+		function tick() {
+			link.attr("x1", function(d) {
+					return d.source.x;
+				})
+				.attr("y1", function(d) {
+					return d.source.y;
+				})
+				.attr("x2", function(d) {
+					return d.target.x;
+				})
+				.attr("y2", function(d) {
+					return d.target.y;
+				});
 
-    var vis = this.vis = el;
-    var force = d3.layout.force()
-        .gravity(.05)
-        .distance(100)
-        .charge(-100)
-        .size([w, h]);
+			node.attr("transform", function(d) {
+				return "translate(" + d.x + "," + d.y + ")";
+			});
+		}
 
-    var nodes = force.nodes(),
-        links = force.links();
+		var update = this.update = function() {
 
-    var update = function () {
+			link = vis.selectAll("line.link")
+				.data(links, function(d) {
+					return d.source.id + "-" + d.target.id;
+				});
 
-        var link = vis.selectAll("line.link")
-            .data(links, function(d) { return d.source.id + "-" + d.target.id; });
+			link.enter().insert("line")
+				.attr("class", "link");
 
-        link.enter().insert("line")
-            .attr("class", "link");
+			link.exit().remove();
 
-        link.exit().remove();
+			node = vis.selectAll("g.node")
+				.data(nodes, function(d) {
+					return d.id;
+				});
 
-        var node = vis.selectAll("g.node")
-            .data(nodes, function(d) { return d.id;});
+			var nodeEnter = node.enter().append("g")
+				.attr("class", "node")
+				.on('mouseover', function(d, i) {
+					if (SM.dragSer.isDrag) {
+						SM.dragSer.setHoverNode(d);
+						//console.log(d,i);
+					}
+				})
+				.call(node_drag);
 
-        var nodeEnter = node.enter().append("g")
-            .attr("class", "node")
-            .on('mouseover',function(d,i){
-            	if(SM.dragSer.isDrag){
-            		SM.dragSer.setHoverNode(d);
-            		//console.log(d,i);
-            	}
-            });
-            //.call(force.drag);
+			//.call(force.drag);
 
-        nodeEnter.append("image")
-            .attr("class", "circle")
-            .attr("xlink:href", "./images/icon_computer.png")
-            .attr("x", "-32px")
-            .attr("y", "-32px")
-            .attr("width", "64px")
-            .attr("height", "64px");
+			nodeEnter.append("image")
+				.attr("class", "circle")
+				.attr("xlink:href", "./images/icon_computer.png")
+				.attr("x", "-32px")
+				.attr("y", "-32px")
+				.attr("width", "64px")
+				.attr("height", "64px");
 
-        nodeEnter.append("text")
-            .attr("class", "nodetext")
-            .attr("dx", 12)
-            .attr("dy", ".35em")
-            .text(function(d) {return d.id});
+			nodeEnter.append("text")
+				.attr("class", "nodetext")
+				.attr("dx", 12)
+				.attr("dy", ".35em")
+				.text(function(d) {
+					return d.id
+				});
 
-        node.exit().remove();
+			node.exit().remove();
 
-        force.on("tick", function() {
-          link.attr("x1", function(d) { return d.source.x; })
-              .attr("y1", function(d) { return d.source.y; })
-              .attr("x2", function(d) { return d.target.x; })
-              .attr("y2", function(d) { return d.target.y; });
+			force.on("tick", tick);
 
-          node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-        });
+			// Restart the force layout.force
+			force.start();
+		}
+		// Add and remove elements on the graph object
+		this.addNode = function(id) {
+			nodes.push({
+				"id": id
+			});
+			update();
+		}
 
-        // Restart the force layout.
-        force.start();
-    }
+		this.removeNode = function(id) {
+			var i = 0;
+			var n = findNode(id);
+			while (i < links.length) {
+				if ((links[i]['source'] === n) || (links[i]['target'] == n)) links.splice(i, 1);
+				else i++;
+			}
+			var index = findNodeIndex(id);
+			if (index !== undefined) {
+				nodes.splice(index, 1);
+				update();
+			}
+		}
 
-    // Make it all go
-    update();
-}
-return {
-	init :function(svg){
-		graph = new myGraph(svg);
+		this.addLink = function(sourceId, targetId) {
+			var sourceNode = findNode(sourceId);
+			var targetNode = findNode(targetId);
 
-		// You can do this from the console as much as you like...
-		graph.addNode("001");
-		graph.addNode("002");
-		graph.addLink("001", "002");
-		graph.addNode("A");
-		graph.addNode("B");
-		graph.addLink("A", "B");
+			if ((sourceNode !== undefined) && (targetNode !== undefined)) {
+				links.push({
+					"source": sourceNode,
+					"target": targetNode
+				});
+				update();
+			}
+		}
+		// Make it all go
+		update();
 	}
-}
+	var graph;
+	return {
+		init: function(svg) {
+			graph = new myGraph(svg);
+
+			// You can do this from the console as much as you like...
+			this.addNode("001");
+			this.addNode("002");
+			this.addLink("001", "002");
+			this.addNode("A");
+			this.addNode("B");
+			this.addLink("A", "B");
+			this.addNode('C');
+			this.addLink('B', 'C');
+		},
+		addNode: function(node, source) {
+			graph.addNode(node);
+			if (source) {
+				graph.addLink(node, source);
+			}
+		},
+		addLink : function(target, source){
+			graph.addLink(target, source);
+		},
+		update : function(){
+			graph.upate();
+		}
+	}
 
 });
-
-

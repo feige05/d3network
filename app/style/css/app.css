@@ -6163,11 +6163,59 @@ button.close {
     display: none !important;
   }
 }
+html,
+body {
+  height: 100%;
+}
 .node {
-  stroke: #fff;
+  cursor: pointer;
+}
+.overlay {
+  background-color: #EEE;
+}
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
   stroke-width: 1.5px;
 }
+.node text {
+  font-size: 10px;
+  font-family: sans-serif;
+}
 .link {
-  stroke: #999;
-  stroke-opacity: .6;
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+.templink {
+  fill: none;
+  stroke: red;
+  stroke-width: 3px;
+}
+.ghostCircle.show {
+  display: block;
+}
+.ghostCircle,
+.activeDrag .ghostCircle {
+  display: none;
+}
+.container-fluid {
+  height: 100%;
+}
+.container-fluid article {
+  height: 100%;
+}
+.container-fluid article .panel-body {
+  height: 100%;
+  border-top: 1px solid #ccc;
+}
+.lib {
+  background-color: #ccc;
+}
+.lib .icon {
+  height: 64px;
+  width: 64px;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  margin: 0.2em;
 }

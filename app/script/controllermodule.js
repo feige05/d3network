@@ -1,4 +1,4 @@
-/** ! NetWork Web App - v0.0.1 - 2014-11-10
+/** ! NetWork Web App - v0.0.1 - 2014-11-11
 * Copyright (c) 2014 HuFei; Licensed  
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　丶丶亅亅亅丶　　　　　　　　
@@ -15,10 +15,10 @@
  **/
 
 define([
-'./controllers/exCtrl',
-'./controllers/mainCtrl'],function(exCtrl,mainCtrl){
+'./controllers/libCtrl',
+'./controllers/mainCtrl'],function(libCtrl,mainCtrl){
 var module = {};
-module['exCtrl']=exCtrl;
+module['libCtrl']=libCtrl;
 module['mainCtrl']=mainCtrl;
 module.module = function(m){return module[m];}
 return module;

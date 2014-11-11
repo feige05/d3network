@@ -36,25 +36,15 @@
 </head>
 <body>
 	<div class="container-fluid">
-  		<div class="row">
-  			<div class="col-md-8">
-  				<article class="panel">
-  					<div class="panel-head text-center">
-  						<h4>网络图</h4>
-  					</div>
-  					<div id='paper' class="panel-body">
-  						<div id="graph" style="height:300px"></div>
-  					</div>
-  				</article>
-  			</div>
-  			<div class="col-md-4">
-  				<article class="panel">
-  					<div class="panel-head text-center">
-  						<h4>组件库</h4>
-  					</div>
-  				</article>
-  			</div>
-  		</div>
+		<article class="panel">
+			<div class="panel-head text-center">
+				<h4>网络图</h4>
+			</div>
+			<div id='paper' class="panel-body">
+				
+			</div>
+		</article>
+  			
 	</div>
 	
 

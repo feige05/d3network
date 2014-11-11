@@ -1,9 +1,64 @@
+html,body{
+	height: 100%;
+}
 .node {
-  stroke: #fff;
-  stroke-width: 1.5px;
+    cursor: pointer;
+  }
+
+  .overlay{
+      background-color:#EEE;
+  }
+   
+  .node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+   
+  .node text {
+    font-size:10px; 
+    font-family:sans-serif;
+  }
+   
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+  }
+
+  .templink {
+    fill: none;
+    stroke: red;
+    stroke-width: 3px;
+  }
+
+  .ghostCircle.show{
+      display:block;
+  }
+
+  .ghostCircle, .activeDrag .ghostCircle{
+       display: none;
+  }
+
+.container-fluid{
+	height: 100%;
+	article{
+		height: 100%;
+		.panel-body {
+			height: 100%;
+			border-top: 1px solid #ccc;
+		}
+
+	}
 }
 
-.link {
-  stroke: #999;
-  stroke-opacity: .6;
-} 
+.lib{
+	background-color: #ccc;
+	.icon{
+		height: 64px;
+		width:64px;
+		padding:0.5em;
+		border: 1px solid #ccc;
+		margin: 0.2em;
+	}
+}

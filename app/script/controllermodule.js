@@ -15,11 +15,9 @@
  **/
 
 define([
-'./controllers/exCtrl',
 './controllers/libCtrl',
-'./controllers/mainCtrl'],function(exCtrl,libCtrl,mainCtrl){
+'./controllers/mainCtrl'],function(libCtrl,mainCtrl){
 var module = {};
-module['exCtrl']=exCtrl;
 module['libCtrl']=libCtrl;
 module['mainCtrl']=mainCtrl;
 module.module = function(m){return module[m];}

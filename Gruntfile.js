@@ -108,7 +108,7 @@ module.exports = function(grunt) {
         livereload: LIVERELOAD_PORT
       },
       js : {
-        files:['app/script/**/*.js','!controllermodule.js']
+        files:['app/script/**/*.js','!controllermodule.js','!servicesmodule.js']
       },
       less: {
         files: ['app/style/less/**'],
@@ -122,9 +122,16 @@ module.exports = function(grunt) {
         files: ['index.tpl'],
         tasks: ['targethtml']
       },
-      concatmodule : {
+      concatmodule_controllers : {
         files:['app/script/controllers/**'],
-        tasks:['concatmodule'],
+        tasks:['concatmodule:controllers'],
+        options: {
+                  event: ['added', 'deleted'],
+                }
+      },
+      concatmodule_services : {
+        files:['app/script/services/**'],
+        tasks:['concatmodule:services'],
         options: {
                   event: ['added', 'deleted'],
                 }
@@ -208,12 +215,11 @@ module.exports = function(grunt) {
     },
     concatmodule: {
             
-            controllermodule: {
+            controllers: {
                 files:[{
                   //expand: true,
                   cwd:'app/script/controllers/',
-                  src:'*.js',
-                  dest:'app/script/controllermodule.js'
+                  src:'*.js'
                 }],
                 options: {
                     //src: 'app/scripts/controllers/',
@@ -222,6 +228,18 @@ module.exports = function(grunt) {
                 }
             },
             
+            services: {
+                files:[{
+                  //expand: true,
+                  cwd:'app/script/services/',
+                  src:'*.js'
+                }],
+                options: {
+                    //src: 'app/scripts/controllers/',
+                    prefix: './services/',
+                    dest: 'app/script/servicesmodule.js'
+                }
+            },
             options: {
                 banner: '/** <%= banner %> **/\n'
             }

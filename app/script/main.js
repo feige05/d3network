@@ -9,7 +9,8 @@ require.config({
 		d3: "../bower_components/d3/d3",
 		"es5-shim": "../bower_components/es5-shim/es5-shim",
 		json3: "../bower_components/json3/lib/json3",
-		CM: "./controllermodule"
+		CM: "./controllermodule",
+    SM: "./servicesmodule"
 	},
 	shim: {
 		backbone: {
@@ -36,17 +37,24 @@ require.config({
 
 (function() {
   require(['jquery', 'CM', 'bootstrap', 'd3'], function($, CM) {
-    console.log($);
-    console.log('Main loading finished.');
+    //console.log($);
+    //console.log('Main loading finished.');
+    //
+    var $el  = $("#paper");
+    var width = $el.innerWidth(),
+        height = $el.innerHeight();
+    var svg = d3.select("#paper").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
     //图标库制器初始化
-    CM.libCtrl.init();
+    CM.libCtrl.init(svg);
 
     //扩展库初始化
     //
-    CM.exCtrl.init();
-    
+
     //主绘图程序初始化
-    CM.mainCtrl.init();
+    CM.mainCtrl.init(svg);
   });
 
 

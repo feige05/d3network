@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-
-<!-- ! NetWork Web App - v0.0.1 - 2014-11-11
+/** ! NetWork Web App - v0.0.1 - 2014-11-11
 * Copyright (c) 2014 HuFei; Licensed  
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　丶丶亅亅亅丶　　　　　　　　
@@ -14,50 +12,12 @@
 　　　　丶日十亅十車瓦瓦日瓦毋車鬼己　　　亅十己瓦日己亅　亅毋鬼瓦日己日己十丶　　　　
 　　　　亅毋瓦乙瓦乙丶丶亅日車己丶　　　　　　　　丶　　　　　亅己己十日車鬼己十亅亅丶
 　　　　　　己亅丶　　　　　　　　　　　　　　　　　　　　　　　　　　　丶十乙毋日日亅
- -->
+ **/
 
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>NetWork Web App</title>
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	
-
-	
-	<link rel="stylesheet" href="style/css/iassWebApp.min.css?v=201411111409">
-	
-
-	
-
-	
-	<script type="text/javascript">
-        var $CONFIG = {};
-        $CONFIG['version'] = '0.0.1';
-        $CONFIG['release_time'] = '2014.11.11 14:09';
-    </script>
-	
-</head>
-<body>
-	<div class="container-fluid">
-		<article class="panel">
-			<div class="panel-head text-center">
-				<h4>网络图</h4>
-			</div>
-			<div id='paper' class="panel-body">
-				
-			</div>
-		</article>
-  			
-	</div>
-	
-
-
-	
-
-	
-	<script data-main="script/iassWebApp.min" src="script/require.min.js?v=201411111409"></script>
-	
-</body>
-</html>
+define([
+'./services/dragSer'],function(dragSer){
+var module = {};
+module['dragSer']=dragSer;
+module.module = function(m){return module[m];}
+return module;
+});

@@ -5,7 +5,7 @@
  * @version $Id$
  */
 
-define(['d3'],function(d3){
+define(['d3','SM'],function(d3,SM){
 	function myGraph(el) {
 
     // Add and remove elements on the graph object
@@ -53,13 +53,10 @@ define(['d3'],function(d3){
     }
 
     // set up the D3 visualisation in the specified element
-    var w = $(el).innerWidth(),
-        h = $(el).innerHeight();
+    var w = el.attr('width'),
+        h = el.attr('height');
 
-    var vis = this.vis = d3.select(el).append("svg:svg")
-        .attr("width", w)
-        .attr("height", h);
-
+    var vis = this.vis = el;
     var force = d3.layout.force()
         .gravity(.05)
         .distance(100)
@@ -84,7 +81,13 @@ define(['d3'],function(d3){
 
         var nodeEnter = node.enter().append("g")
             .attr("class", "node")
-            .call(force.drag);
+            .on('mouseover',function(d,i){
+            	if(SM.dragSer.isDrag){
+            		SM.dragSer.setHoverNode(d);
+            		//console.log(d,i);
+            	}
+            });
+            //.call(force.drag);
 
         nodeEnter.append("image")
             .attr("class", "circle")
@@ -119,9 +122,8 @@ define(['d3'],function(d3){
     update();
 }
 return {
-	init :function(){
-
-		graph = new myGraph("#graph");
+	init :function(svg){
+		graph = new myGraph(svg);
 
 		// You can do this from the console as much as you like...
 		graph.addNode("001");

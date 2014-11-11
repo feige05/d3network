@@ -1,0 +1,32 @@
+{
+  "name": "NetWorkWebApp",
+  "version": "0.0.1",
+  "authors": [
+    "Hufei <feige_hu@foxmail.com>"
+  ],
+  "main": "app/main.js",
+  "keywords": [
+    "iass",
+    "requirejs",
+    "bootstrap"
+  ],
+  "license": "MIT",
+  "homepage": "http://192.168.133.15/gitlab/hufei/iass-web-app",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.15",
+    "bootstrap": "~3.2.0",
+    "backbone": "~1.1.2",
+    "underscore": "~1.7.0",
+    "jquery": "~2.1.1",
+    "json3": "~3.3.1",
+    "es5-shim": "~3.1.0",
+    "d3": "~3.4.13"
+  }
+}

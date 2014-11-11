@@ -88,7 +88,7 @@ define(['d3'],function(d3){
 
         nodeEnter.append("image")
             .attr("class", "circle")
-            .attr("xlink:href", "./images/my_computer.png")
+            .attr("xlink:href", "./images/icon_computer.png")
             .attr("x", "-32px")
             .attr("y", "-32px")
             .attr("width", "64px")

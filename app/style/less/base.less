@@ -1,3 +1,6 @@
+html,body{
+	height: 100%;
+}
 .node {
   stroke: #fff;
   stroke-width: 1.5px;
@@ -7,3 +10,30 @@
   stroke: #999;
   stroke-opacity: .6;
 } 
+
+.container-fluid{
+	height: 100%;
+	.row{
+		height: 100%;
+		>div {
+			height: 100%;
+		}
+
+	}
+}
+.canvas{
+	.panel-body{
+		border-top: 1px solid #ccc;
+	}
+}
+
+.lib{
+	background-color: #ccc;
+	.icon{
+		height: 64px;
+		width:64px;
+		padding:0.5em;
+		border: 1px solid #ccc;
+		margin: 0.2em;
+	}
+}

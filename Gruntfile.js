@@ -107,6 +107,9 @@ module.exports = function(grunt) {
       options: {
         livereload: LIVERELOAD_PORT
       },
+      js : {
+        files:['app/script/**/*.js','!controllermodule.js']
+      },
       less: {
         files: ['app/style/less/**'],
         tasks: ['clean:css', 'less:dev']

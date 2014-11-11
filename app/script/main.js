@@ -38,8 +38,14 @@ require.config({
   require(['jquery', 'CM', 'bootstrap', 'd3'], function($, CM) {
     console.log($);
     console.log('Main loading finished.');
-   CM.exCtrl.init();
+    //图标库制器初始化
+    CM.libCtrl.init();
 
+    //扩展库初始化
+    //
+    CM.exCtrl.init();
+    
+    //主绘图程序初始化
     CM.mainCtrl.init();
   });
 

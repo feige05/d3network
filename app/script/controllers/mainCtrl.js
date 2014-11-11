@@ -10,6 +10,7 @@ define(['d3', 'SM'], function(d3, SM) {
 
 		// Add and remove elements on the graph object
 		this.addNode = function(id, type) {
+            if(!type) type = 0;
 			nodes.push({
 				"id": id
                 , type: type
@@ -70,6 +71,27 @@ this.getLinks = function () {
 this.getNodes = function () {
     return force.nodes();
     }
+
+        var nodetype = [
+            "AS5100.png",
+            "atm.png",
+            "Catalyst.png",
+            "Concentrator.png",
+            "Crescendo.png",
+            "hub.png",
+            "icon_computer.png",
+            "icon_firewall.png",
+            "icon_router.png",
+            "Interface.png",
+            "PC.png",
+            "protocol.png",
+            "Router.png",
+            "server.png",
+            "Silicon.png",
+            "Workgroup.png",
+            "works.png"
+        ];
+        
 		// set up the D3 visualisation in the specified element
 		var w = el.attr('width'),
 			h = el.attr('height');
@@ -170,7 +192,7 @@ this.getNodes = function () {
 
 			nodeEnter.append("image")
 				.attr("class", "circle")
-				.attr("xlink:href", "./images/"+ nodetype[d.type])
+				.attr("xlink:href", function(d){return "./images/"+ nodetype[d.type];})
 				.attr("x", "-32px")
 				.attr("y", "-32px")
 				.attr("width", "64px")
@@ -178,8 +200,8 @@ this.getNodes = function () {
 
 			nodeEnter.append("text")
 				.attr("class", "nodetext")
-				.attr("dx", 12)
-				.attr("dy", ".35em")
+				.attr("dx", "-1em")
+				.attr("dy", "2.5em")
 				.text(function(d) {
 					return d.id
 				});
@@ -195,21 +217,7 @@ this.getNodes = function () {
         // Make it all go
         update();
 
-        nodetype = ["AS5100.png",
-            "atm.png",
-            "Catalyst.png",
-            "Concentrator.png",
-            "Crescendo.png",
-            "hub.png",
-            "Interface.png",
-            "my_computer.png",
-            "PC.png",
-            "protocol.png",
-            "Router.png",
-            "server.png",
-            "Silicon.png",
-            "Workgroup.png",
-            "works.png"];
+
 	}
 	var graph;
 	return {
@@ -231,15 +239,16 @@ this.getNodes = function () {
             graph.addNode("PC-002", "2");
 
             graph.addNode("R-001", "3");
-            graph.addNode("R-002", "3");
+            graph.addNode("R-002", "4");
             graph.addNode("R-101", "3");
-            graph.addNode("R-102", "3");
+            graph.addNode("R-102", "4");
 
+            //FIXME 这里的顺序不管怎么调整，最后一根线始终会消失
             graph.addLink("PC-001", "R-001", "2", "100.100.100.222");
+            graph.addLink("PC-002", "R-101", "2", "100.100.100.222");
             graph.addLink("R-001", "R-002", "2", "100.100.100.222");
-            graph.addLink("R-101", "R-002", "2", "100.100.100.222");
+            graph.addLink("R-102", "R-002", "2", "100.100.100.222");
             graph.addLink("R-101", "R-102", "2", "100.100.100.222");
-            graph.addLink("R-102", "PC-102", "2", "100.100.100.222");
 
 		},
 		addNode: function(node, source) {

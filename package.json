@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://192.168.133.15/gitlab/hufei/NetWork-web-app"
+    "url": "https://github.com/feige05/d3network"
   },
   "devDependencies": {
     "bower": "^1.3.12",

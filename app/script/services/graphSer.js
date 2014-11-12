@@ -25,6 +25,10 @@ define(['d3', './typeSer', './dragSer'], function(d3, typeSer, dragSer) {
     var link, node;
     var isDrag;
     var nodetype = typeSer.libs;
+
+    var selectedNode = [];
+    var selectedNode2 = [];
+
     var node_drag = d3.behavior.drag()
         .on("dragstart", dragstart)
         .on("drag", dragmove)
@@ -160,6 +164,61 @@ define(['d3', './typeSer', './dragSer'], function(d3, typeSer, dragSer) {
                         dragSer.setHoverNode(d);
                         //console.log(d,i);
                     }
+                }).on("click",function(d) {
+                    if (key == 1) {
+
+                        if (!!G.findSelectNode(selectedNode, {d: d, t: this})) {
+                            console.debug("取消选中状态");
+                            //取消选中状态
+                            d3.select(this).attr("fill", null);
+                            selectedNode.splice(selectedNode.indexOf(G.findSelectNode(selectedNode, {d: d, t: this})), 1);
+                        }
+                        else {
+                            //设置选中
+                            d3.select(this).attr("fill", "red");
+                            selectedNode.push({d: d, t: this});
+                            //当两个被选中，则添加链接
+                            if (selectedNode.length == 2) {
+                                //未连线方起作用
+                                if (!G.findLink(selectedNode[0].d.id, selectedNode[1].d.id)) {
+                                    G.links.push({
+                                        "source": selectedNode[0].d,
+                                        "target": selectedNode[1].d
+                                    });
+                                    G.update();
+                                }
+                                d3.select(selectedNode[0].t).attr("fill", null);
+                                d3.select(selectedNode[1].t).attr("fill", null);
+                                selectedNode = [];
+                            }
+                        }
+                    } else if (key == 2) {
+                        if (!!G.findSelectNode(selectedNode2, {d: d, t: this})) {
+                            console.debug("取消选中状态");
+                            //取消选中状态
+                            d3.select(this).attr("fill", null);
+                            selectedNode2.splice(selectedNode2.indexOf(G.findSelectNode(selectedNode2, {d: d, t: this})), 1);
+                        }
+                        else {
+                            //设置选中
+                            d3.select(this).attr("fill", "red");
+                            selectedNode2.push({d: d, t: this});
+                            //当两个被选中，则移除链接
+                            if (selectedNode2.length == 2) {
+                                if (!!G.findLink(selectedNode2[0].d.id, selectedNode2[1].d.id)) {
+                                    console.debug("find1");
+                                    G.links.splice(G.links.indexOf(G.findLink(selectedNode2[0].d.id, selectedNode2[1].d.id)), 1);
+                                }
+
+                                G.update();
+                                d3.select(selectedNode2[0].t).attr("fill", null);
+                                d3.select(selectedNode2[1].t).attr("fill", null);
+                                selectedNode2 = [];
+                            }
+                        }
+                    }
+                    console.log(d);
+                    console.log(key);
                 })
                 .call(node_drag);
 
@@ -188,8 +247,8 @@ define(['d3', './typeSer', './dragSer'], function(d3, typeSer, dragSer) {
                 .text(function(d) {
                     return d.text
                 });
-            
-            
+
+
 
             node.exit().remove();
 
@@ -203,7 +262,7 @@ define(['d3', './typeSer', './dragSer'], function(d3, typeSer, dragSer) {
         getIcon : function(type){
             return nodeType[type].icon
         },
-        
+
         addNode: function(tpl, source) {
             var node = {
                 "id": G.getNewId(),
@@ -257,9 +316,19 @@ define(['d3', './typeSer', './dragSer'], function(d3, typeSer, dragSer) {
         removeLink: function(sourceId, targetId) {
             //TODO 删除待完善
             //links.
+        },
+        findLink: function (sourceId, targetId) {
+            for (var i = 0; i < G.links.length; i++) {
+                if ((G.links[i].source.id === sourceId && G.links[i].target.id === targetId)
+                    || (G.links[i].source.id === targetId && G.links[i].target.id === sourceId))
+                    return G.links[i];
+            }
+        }, findSelectNode: function (nodes, node) {
+            for (var i = 0; i < nodes.length; i++) {
+                if ((nodes[i].t === node.t && nodes[i].d === node.d))
+                    return nodes[i];
+            }
         }
-
-
     }
     return G
 });

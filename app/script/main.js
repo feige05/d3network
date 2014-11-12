@@ -55,8 +55,21 @@ require.config({
 
     //主绘图程序初始化
     CM.mainCtrl.init(svg);
+
+      $(window).keydown(function (e) {
+          if (e.shiftKey) {
+              key = 1;
+          } else if (e.ctrlKey) {
+              key = 2;
+          }
+          //$("#bb").val("初始值:"+ibe+" key:"+key);
+      }).keyup(function () {
+              key = 0;
+          });
   });
 
 
 
 })();
+
+var key=0;  //记录ctrl/shift键

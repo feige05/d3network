@@ -37,11 +37,14 @@ define(['d3', 'SM'], function(d3, SM) {
 			var targetNode = findNode(targetId);
 
 			if ((sourceNode !== undefined) && (targetNode !== undefined)) {
+				force.stop();
 				links.push({
 					"source": sourceNode,
 					"target": targetNode
 				});
-				update();
+				setTimeout(update,300);
+				//update();
+				
 			}
 		}
 
@@ -59,18 +62,18 @@ define(['d3', 'SM'], function(d3, SM) {
 			};
 		}
 
-this.removeLink = function (sourceId, targetId) {
-    //TODO 删除待完善
-    //links.
-    }
+		this.removeLink = function (sourceId, targetId) {
+		    //TODO 删除待完善
+		    //links.
+		    }
 
-this.getLinks = function () {
-    return force.links();
-    }
+		this.getLinks = function () {
+		    return force.links();
+		    }
 
-this.getNodes = function () {
-    return force.nodes();
-    }
+		this.getNodes = function () {
+		    return force.nodes();
+		    }
 
         var nodetype = [
             "AS5100.png",
@@ -95,7 +98,7 @@ this.getNodes = function () {
 		// set up the D3 visualisation in the specified element
 		var w = el.attr('width'),
 			h = el.attr('height');
-
+		//var timer, self = this;
 		var vis = this.vis = el;
 		var force = d3.layout.force()
 			.gravity(.05)
@@ -103,9 +106,12 @@ this.getNodes = function () {
             .charge(-400)
             .linkDistance(40)
 			.size([w, h]);
-		var node, link;
+
 		var nodes = force.nodes(),
 			links = force.links();
+
+		var link, node;
+
 		var node_drag = d3.behavior.drag()
 			.on("dragstart", dragstart)
 			.on("drag", dragmove)
@@ -148,33 +154,31 @@ this.getNodes = function () {
 				return "translate(" + d.x + "," + d.y + ")";
 			});
 		}
-
+		
 		var update = this.update = function() {
 
-			link = vis.selectAll("line.link")
-				.data(links, function(d) {
+			link = vis.selectAll("line.link").data(links, function(d) {
 					return d.source.id + "-" + d.target.id;
 				});
 
 
             var linkG = link.enter().append("g");
-            linkG.append("line")
-                .attr("class", "link");
+	            linkG.append("line")
+	                .attr("class", "link");
 
 
-            linkG.append("text")
-                .attr("dx", 12)
-                .attr("dy", ".35em")
-                .attr("class", "nodetext")
-                .attr("fill", "red")
-                .text(function (d) {
-                    return d.text
-                });
+	            linkG.append("text")
+	                .attr("dx", 12)
+	                .attr("dy", ".35em")
+	                .attr("class", "nodetext")
+	                .attr("fill", "red")
+	                .text(function (d) {
+	                    return d.text
+	                });
 
 			link.exit().remove();
 
-			node = vis.selectAll("g.node")
-				.data(nodes, function(d) {
+			node = vis.selectAll("g.node").data(nodes, function(d) {
 					return d.id;
 				});
 
@@ -208,17 +212,17 @@ this.getNodes = function () {
 
 			node.exit().remove();
 
-			force.on("tick", tick);
-
             // Restart the force layout.force
             force.start();
         }
-
+		force.on("tick", tick);
+		//force.start();
         // Make it all go
         update();
 
 
 	}
+
 	var graph;
 	return {
 		init: function(svg) {
@@ -248,7 +252,7 @@ this.getNodes = function () {
             graph.addLink("PC-002", "R-101", "2", "100.100.100.222");
             graph.addLink("R-001", "R-002", "2", "100.100.100.222");
             graph.addLink("R-102", "R-002", "2", "100.100.100.222");
-            graph.addLink("R-101", "R-102", "2", "100.100.100.222");
+            graph.addLink("R-102", "R-101", "2", "100.100.100.222");
 
 		},
 		addNode: function(node, source) {
@@ -261,7 +265,7 @@ this.getNodes = function () {
 			graph.addLink(target, source);
 		},
 		update : function(){
-			graph.upate();
+			graph.update();
 		}
 	}
 

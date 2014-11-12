@@ -9,9 +9,11 @@ define(['d3', 'SM'], function(d3, SM) {
 	function myGraph(el) {
 
 		// Add and remove elements on the graph object
-		this.addNode = function(id) {
+		this.addNode = function(id, type) {
+            if(!type) type = 0;
 			nodes.push({
 				"id": id
+                , type: type
 			});
 			update();
 		}
@@ -57,6 +59,39 @@ define(['d3', 'SM'], function(d3, SM) {
 			};
 		}
 
+this.removeLink = function (sourceId, targetId) {
+    //TODO 删除待完善
+    //links.
+    }
+
+this.getLinks = function () {
+    return force.links();
+    }
+
+this.getNodes = function () {
+    return force.nodes();
+    }
+
+        var nodetype = [
+            "AS5100.png",
+            "atm.png",
+            "Catalyst.png",
+            "Concentrator.png",
+            "Crescendo.png",
+            "hub.png",
+            "icon_computer.png",
+            "icon_firewall.png",
+            "icon_router.png",
+            "Interface.png",
+            "PC.png",
+            "protocol.png",
+            "Router.png",
+            "server.png",
+            "Silicon.png",
+            "Workgroup.png",
+            "works.png"
+        ];
+        
 		// set up the D3 visualisation in the specified element
 		var w = el.attr('width'),
 			h = el.attr('height');
@@ -64,8 +99,9 @@ define(['d3', 'SM'], function(d3, SM) {
 		var vis = this.vis = el;
 		var force = d3.layout.force()
 			.gravity(.05)
-			.distance(100)
-			.charge(-100)
+			//.distance(100)
+            .charge(-400)
+            .linkDistance(40)
 			.size([w, h]);
 		var node, link;
 		var nodes = force.nodes(),
@@ -120,8 +156,20 @@ define(['d3', 'SM'], function(d3, SM) {
 					return d.source.id + "-" + d.target.id;
 				});
 
-			link.enter().insert("line")
-				.attr("class", "link");
+
+            var linkG = link.enter().append("g");
+            linkG.append("line")
+                .attr("class", "link");
+
+
+            linkG.append("text")
+                .attr("dx", 12)
+                .attr("dy", ".35em")
+                .attr("class", "nodetext")
+                .attr("fill", "red")
+                .text(function (d) {
+                    return d.text
+                });
 
 			link.exit().remove();
 
@@ -144,7 +192,7 @@ define(['d3', 'SM'], function(d3, SM) {
 
 			nodeEnter.append("image")
 				.attr("class", "circle")
-				.attr("xlink:href", "./images/icon_computer.png")
+				.attr("xlink:href", function(d){return "./images/"+ nodetype[d.type];})
 				.attr("x", "-32px")
 				.attr("y", "-32px")
 				.attr("width", "64px")
@@ -152,8 +200,8 @@ define(['d3', 'SM'], function(d3, SM) {
 
 			nodeEnter.append("text")
 				.attr("class", "nodetext")
-				.attr("dx", 12)
-				.attr("dy", ".35em")
+				.attr("dx", "-1em")
+				.attr("dy", "2.5em")
 				.text(function(d) {
 					return d.id
 				});
@@ -162,12 +210,14 @@ define(['d3', 'SM'], function(d3, SM) {
 
 			force.on("tick", tick);
 
-			// Restart the force layout.force
-			force.start();
-		}
+            // Restart the force layout.force
+            force.start();
+        }
 
-		// Make it all go
-		update();
+        // Make it all go
+        update();
+
+
 	}
 	var graph;
 	return {
@@ -183,6 +233,23 @@ define(['d3', 'SM'], function(d3, SM) {
 			this.addLink("A", "B");
 			this.addNode('C');
 			this.addLink('B', 'C');
+
+
+            graph.addNode("PC-001", "2");
+            graph.addNode("PC-002", "2");
+
+            graph.addNode("R-001", "3");
+            graph.addNode("R-002", "4");
+            graph.addNode("R-101", "3");
+            graph.addNode("R-102", "4");
+
+            //FIXME 这里的顺序不管怎么调整，最后一根线始终会消失
+            graph.addLink("PC-001", "R-001", "2", "100.100.100.222");
+            graph.addLink("PC-002", "R-101", "2", "100.100.100.222");
+            graph.addLink("R-001", "R-002", "2", "100.100.100.222");
+            graph.addLink("R-102", "R-002", "2", "100.100.100.222");
+            graph.addLink("R-101", "R-102", "2", "100.100.100.222");
+
 		},
 		addNode: function(node, source) {
 			graph.addNode(node);

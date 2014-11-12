@@ -1,4 +1,4 @@
-/** ! NetWork Web App - v0.0.1 - 2014-11-11
+/** ! NetWork Web App - v0.0.1 - 2014-11-12
 * Copyright (c) 2014 HuFei; Licensed  
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　丶丶亅亅亅丶　　　　　　　　
@@ -15,9 +15,13 @@
  **/
 
 define([
-'./services/dragSer'],function(dragSer){
+'./services/dragSer',
+'./services/graphSer',
+'./services/typeSer'],function(dragSer,graphSer,typeSer){
 var module = {};
 module['dragSer']=dragSer;
+module['graphSer']=graphSer;
+module['typeSer']=typeSer;
 module.module = function(m){return module[m];}
 return module;
 });

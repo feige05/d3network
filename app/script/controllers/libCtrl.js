@@ -6,42 +6,23 @@
  */
 
 define(['jquery','d3','SM'], function($,d3,SM) {
-    var libs = [{
-        name: 'router',
-        icon: 'images/icon_router.png',
-        title: '路由'
-    }, {
-        name: 'computer',
-        icon: 'images/icon_computer.png',
-        title: '主机'
-    }, {
-        name: 'firewall',
-        icon: 'images/icon_firewall.png',
-        title: '防火墙'
-    }, {
-        name: 'computer',
-        icon: 'images/icon_computer.png',
-        title: '主机'
-    }, {
-        name: 'firewall',
-        icon: 'images/icon_firewall.png',
-        title: '防火墙'
-    }, {
-        name: 'computer',
-        icon: 'images/icon_computer.png',
-        title: '主机'
-    }, {
-        name: 'firewall',
-        icon: 'images/icon_firewall.png',
-        title: '防火墙'
-    }]
+    var libs = SM.typeSer.libs;
     var Ctrl = {
+        cell : {
+            w:     64,
+            h:     64,
+            space: 10,
+            n:     1
+        },
+        getWidth: function(){
+            return this.cell.n * (this.cell.w + this.cell.space)
+        },
         init: function(svg) {
             var w, h;
             w = svg.attr('width');
             h = svg.attr('height');
             Ctrl.svg = svg;
-            Ctrl.startX = svg.attr('width') - 212;
+            Ctrl.startX = svg.attr('width') - this.getWidth();
             Ctrl.startY = 10;
             Ctrl.box = svg.append('g')
                 .attr('id', 'libbody')
@@ -70,7 +51,11 @@ define(['jquery','d3','SM'], function($,d3,SM) {
                 })
                 .on("dragend", function(d, i) {
                     //we're done, end some stuff
-                    console.log(SM.dragSer.getHoverNode());//(Ctrl.startX + d.x, d.y + 10);
+                    //console.log(SM.dragSer.getHoverNode(),d);//(Ctrl.startX + d.x, d.y + 10);
+                    if(SM.dragSer.getHoverNode()){
+                        d.type = i;
+                        SM.graphSer.addNode(d,SM.dragSer.getHoverNode());
+                    }
                     SM.dragSer.setDragStatus(false);
                     SM.dragSer.removeHoverNode();
 
@@ -87,10 +72,11 @@ define(['jquery','d3','SM'], function($,d3,SM) {
         getPosition: function(i, type) {
             var w = h = 64;
             var space = 10;
+            var cell = 1;
             if (type == 'x') {
-                return i % 3 * (w + space) 
+                return i % cell * (w + space) 
             } else {
-                return Math.floor(i / 3) * (h + space)
+                return Math.floor(i / cell) * (h + space)
             }
 
         },

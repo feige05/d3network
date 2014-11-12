@@ -12,8 +12,8 @@ define(['d3', 'SM'], function(d3, SM) {
 		this.addNode = function(id, type) {
             if(!type) type = 0;
 			nodes.push({
-				"id": id
-                , type: type
+				"id": id,
+				"type": type
 			});
 			update();
 		}
@@ -226,19 +226,10 @@ define(['d3', 'SM'], function(d3, SM) {
 	var graph;
 	return {
 		init: function(svg) {
-			graph = new myGraph(svg);
-
-			// You can do this from the console as much as you like...
-			this.addNode("001");
-			this.addNode("002");
-			this.addLink("001", "002");
-			this.addNode("A");
-			this.addNode("B");
-			this.addLink("A", "B");
-			this.addNode('C');
-			this.addLink('B', 'C');
-
-
+			//graph = new myGraph(svg);
+			//SM.graphSer.setGraph(graph);
+			SM.graphSer.init(svg);
+			return false;
             graph.addNode("PC-001", "2");
             graph.addNode("PC-002", "2");
 
@@ -254,18 +245,6 @@ define(['d3', 'SM'], function(d3, SM) {
             graph.addLink("R-102", "R-002", "2", "100.100.100.222");
             graph.addLink("R-102", "R-101", "2", "100.100.100.222");
 
-		},
-		addNode: function(node, source) {
-			graph.addNode(node);
-			if (source) {
-				graph.addLink(node, source);
-			}
-		},
-		addLink : function(target, source){
-			graph.addLink(target, source);
-		},
-		update : function(){
-			graph.update();
 		}
 	}
 

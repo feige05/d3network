@@ -186,6 +186,7 @@ define(['d3', './typeSer', './dragSer'], function(d3, typeSer, dragSer) {
                                         "target": selectedNode[1].d
                                     });
                                     G.update();
+                                    setTimeout(G.update(), 300);
                                 }
                                 d3.select(selectedNode[0].t).attr("fill", null);
                                 d3.select(selectedNode[1].t).attr("fill", null);
@@ -210,7 +211,7 @@ define(['d3', './typeSer', './dragSer'], function(d3, typeSer, dragSer) {
                                     G.links.splice(G.links.indexOf(G.findLink(selectedNode2[0].d.id, selectedNode2[1].d.id)), 1);
                                 }
 
-                                G.update();
+                               setTimeout(G.update(), 300);
                                 d3.select(selectedNode2[0].t).attr("fill", null);
                                 d3.select(selectedNode2[1].t).attr("fill", null);
                                 selectedNode2 = [];

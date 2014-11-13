@@ -12,7 +12,7 @@ define(['jquery','d3','SM'], function($,d3,SM) {
             w:     64,
             h:     64,
             space: 10,
-            n:     1
+            n:     2
         },
         getWidth: function(){
             return this.cell.n * (this.cell.w + this.cell.space)
@@ -72,7 +72,7 @@ define(['jquery','d3','SM'], function($,d3,SM) {
         getPosition: function(i, type) {
             var w = h = 64;
             var space = 10;
-            var cell = 1;
+            var cell = this.cell.n;
             if (type == 'x') {
                 return i % cell * (w + space) 
             } else {

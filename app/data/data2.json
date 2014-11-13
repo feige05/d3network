@@ -1,0 +1,121 @@
+{"nodes": [
+    {
+        "id": "Collaboration",
+        "type": 0,
+        "text": "Collaboration",
+        "l": 0,
+        "x": 0,
+        "y": 199.25,
+        "w": 128,
+        "h": 128,
+        "icon": "images/icon_cloud.png"
+    },
+    {
+        "id": "Internet",
+        "type": 0,
+        "l": 0,
+        "text": "Internet",
+        "x": 0,
+        "y": 597.75,
+        "w": 128,
+        "h": 128,
+        "icon": "images/icon_cloud.png"
+    },
+    {
+        "id": 0,
+        "type": 1,
+        "icon": "images/atm.png",
+        "l": 1,
+        "x": 211.32305136322975,
+        "y": 309.0001184940338,
+        "w": 64,
+        "h": 64,
+        "text": "主机",
+        "px": null,
+        "py": null,
+        "fixed": true
+    },
+    {
+        "id": 1,
+        "type": 2,
+        "icon": "images/Catalyst.png",
+        "l": 1,
+        "x": 295.0197210609913,
+        "y": 578.8675762414932,
+        "w": 64,
+        "h": 64,
+        "text": "防火墙1000",
+        "fixed": true,
+        "px": null,
+        "py": null
+    },
+    {
+        "id": 2,
+        "type": 4,
+        "icon": "images/Crescendo.png",
+        "l": 2,
+        "x": 299.83849290013313,
+        "y": 438.43730372190475,
+        "w": 64,
+        "h": 64,
+        "text": "防火墙222",
+        "fixed": true,
+        "px": null,
+        "py": null
+    },
+    {
+        "id": 3,
+        "type": 1,
+        "icon": "images/atm.png",
+        "l": 1,
+        "x": 290.8160586953163,
+        "y": 173.583815574646,
+        "w": 64,
+        "h": 64,
+        "text": "主机",
+        "px": null,
+        "py": null,
+        "fixed": true
+    }
+], "links": [
+    {
+        "source": {
+            "id": "Collaboration"
+        },
+        "target": {
+            "id": 0
+        }
+    },
+    {
+        "source": {
+            "id": "Internet"
+        },
+        "target": {
+            "id": 1
+        }
+    },
+    {
+        "source": {
+            "id": 0
+        },
+        "target": {
+            "id": 2
+        }
+    },
+    {
+        "source": {
+            "id": 1
+        },
+        "target": {
+            "id": 2
+        }
+    },
+    {
+        "source": {
+            "id": "Collaboration"
+        },
+        "target": {
+            "id": 3
+        }
+    }
+]}

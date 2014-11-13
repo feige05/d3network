@@ -1,0 +1,94 @@
+{
+    "nodes": [
+        {
+            "id": "Collaboration",
+            "type": 0,
+            "text": "Collaboration",
+            "l": 0,
+            "x": 0,
+            "y": 199.25,
+            "w": 128,
+            "h": 128,
+            "icon": "images/icon_cloud.png"
+        },
+        {
+            "id": "Internet",
+            "type": 0,
+            "l": 0,
+            "text": "Internet",
+            "x": 0,
+            "y": 597.75,
+            "w": 128,
+            "h": 128,
+            "icon": "images/icon_cloud.png"
+        },
+        {
+            "id": 0,
+            "type": 1,
+            "icon": "images/atm.png",
+            "l": 1,
+            "x": 319.32305136322975,
+            "y": 253.0001184940338,
+            "w": 64,
+            "h": 64,
+            "text": "主机"
+        },
+        {
+            "id": 1,
+            "type": 2,
+            "icon": "images/Catalyst.png",
+            "l": 1,
+            "x": 263.0197210609913,
+            "y": 514.8675762414932,
+            "w": 64,
+            "h": 64,
+            "text": "防火墙1000",
+            "fixed": true
+        },
+        {
+            "id": 2,
+            "type": 4,
+            "icon": "images/Crescendo.png",
+            "l": 2,
+            "x": 522.8384929001331,
+            "y": 353.43730372190475,
+            "w": 64,
+            "h": 64,
+            "text": "防火墙222",
+            "fixed": true
+        }
+    ],
+    "links": [
+        {
+            "source": {
+                "id": "Collaboration"
+            },
+            "target": {
+                "id": 0
+            }
+        },
+        {
+            "source": {
+                "id": "Internet"
+            },
+            "target": {
+                "id": 1
+            }
+        },
+        {
+            "source": {
+                "id": 0
+            },
+            "target": {
+                "id": 2
+            }
+        },
+        {
+            "source": {
+                "id": 1
+            },
+            "target": {
+                "id": 2
+            }
+        }
+    ]}

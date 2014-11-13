@@ -126,7 +126,7 @@ define(['d3', './typeSer', './dragSer'], function(d3, typeSer, dragSer) {
                 var _data = buildData(json);
                 G.nodes = _data.nodes;
                 G.links = _data.links;
-                G.i = G.nodes.length-2;
+                G.i = G.nodes.length+1;
             }
             else {
                 G.nodes = [

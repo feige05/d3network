@@ -244,50 +244,36 @@ define(['d3', 'SM'], function(d3, SM) {
         });
     });
 
-    $("#btnGetData1").on("click",function(){
-        $.getJSON("data/data1.json",function(json){
-            SM.graphSer.init(SM.graphSer.svg,json);
-        });
-    });
 
-    $("#btnGetData2").on("click",function(){
-        $.getJSON("data/data2.json",function(json){
-            SM.graphSer.init(SM.graphSer.svg,json);
-        });
-    });
-
-    $("#btnClean").on("click",function(){
-         SM.graphSer.init(SM.graphSer.svg);
-    });
 
 	return {
-		init: function(svg) {
+		init: function(svg,json) {
 
 //            SM.graphSer.init(svg);
 
-           $.getJSON("data/data1.json",function(json){
-               SM.graphSer.init(svg,json);
-           });
+//            $.getJSON("data/data1.json",function(json){
+                SM.graphSer.init(svg,json);
+//            });
 
 
 //            graph = new myGraph(svg);
 //			SM.graphSer.setGraph(graph);
 //
 			return false;
-            graph.addNode("PC-001", "2");
-            graph.addNode("PC-002", "2");
+//            graph.addNode("PC-001", "2");
+//            graph.addNode("PC-002", "2");
 
-            graph.addNode("R-001", "3");
-            graph.addNode("R-002", "4");
-            graph.addNode("R-101", "3");
-            graph.addNode("R-102", "4");
+//            graph.addNode("R-001", "3");
+//            graph.addNode("R-002", "4");
+//            graph.addNode("R-101", "3");
+//            graph.addNode("R-102", "4");
 
             //FIXME 这里的顺序不管怎么调整，最后一根线始终会消失
-            graph.addLink("PC-001", "R-001", "2", "100.100.100.222");
-            graph.addLink("PC-002", "R-101", "2", "100.100.100.222");
-            graph.addLink("R-001", "R-002", "2", "100.100.100.222");
-            graph.addLink("R-102", "R-002", "2", "100.100.100.222");
-            graph.addLink("R-102", "R-101", "2", "100.100.100.222");
+//            graph.addLink("PC-001", "R-001", "2", "100.100.100.222");
+//            graph.addLink("PC-002", "R-101", "2", "100.100.100.222");
+//            graph.addLink("R-001", "R-002", "2", "100.100.100.222");
+//            graph.addLink("R-102", "R-002", "2", "100.100.100.222");
+//            graph.addLink("R-102", "R-101", "2", "100.100.100.222");
 
 		}
 	}

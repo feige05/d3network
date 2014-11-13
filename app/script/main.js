@@ -37,24 +37,48 @@ require.config({
 
 (function() {
   require(['jquery', 'CM', 'bootstrap', 'd3'], function($, CM) {
-    //console.log($);
-    //console.log('Main loading finished.');
-    //
-    var $el  = $("#paper");
-    var width = $el.innerWidth(),
-        height = $el.innerHeight();
-    var svg = d3.select("#paper").append("svg")
-                .attr("width", width)
-                .attr("height", height);
 
-    //图标库制器初始化
-    CM.libCtrl.init(svg);
+    var buildSvg= function(json)
+    {
+        //console.log($);
+        //console.log('Main loading finished.');
+        //
+        var $el  = $("#paper");
+        $el.empty();
+        var width = $el.innerWidth(),
+            height = $el.innerHeight();
+        var svg = d3.select("#paper").append("svg")
+            .attr("width", width)
+            .attr("height", height);
 
-    //扩展库初始化
-    //
+        //图标库制器初始化
+        CM.libCtrl.init(svg);
 
-    //主绘图程序初始化
-    CM.mainCtrl.init(svg);
+        //扩展库初始化
+        //
+
+        //主绘图程序初始化
+        CM.mainCtrl.init(svg,json);
+
+    }
+
+      buildSvg();
+
+      $("#btnGetData1").on("click",function(){
+          $.getJSON("data/data1.json",function(json){
+              buildSvg(json);
+          });
+      });
+
+      $("#btnGetData2").on("click",function(){
+          $.getJSON("data/data2.json",function(json){
+              buildSvg(json);
+          });
+      });
+
+      $("#btnClean").on("click",function(){
+          buildSvg();
+      });
 
       $(window).keydown(function (e) {
           if (e.shiftKey) {

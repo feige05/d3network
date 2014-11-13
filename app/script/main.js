@@ -61,6 +61,8 @@ require.config({
               key = 1;
           } else if (e.ctrlKey) {
               key = 2;
+          } else if (e.altKey) {
+              key = 3;
           }
           //$("#bb").val("初始值:"+ibe+" key:"+key);
       }).keyup(function () {

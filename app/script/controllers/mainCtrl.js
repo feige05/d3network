@@ -44,7 +44,7 @@ define(['d3', 'SM'], function(d3, SM) {
 				});
 				setTimeout(update,300);
 				//update();
-				
+
 			}
 		}
 
@@ -62,11 +62,22 @@ define(['d3', 'SM'], function(d3, SM) {
 			};
 		}
 
-		this.removeLink = function (sourceId, targetId) {
-		    //TODO 删除待完善
-		    //links.
-		    }
 
+        var findLink = function (sourceId, targetId) {
+            for (var i = 0; i < links.length; i++) {
+                if ((links[i].source.id === sourceId && links[i].target.id === targetId)
+                    || (links[i].source.id === targetId && links[i].target.id === sourceId))
+                    return links[i];
+            }
+        }
+         var findSelectNode= function (nodes, node) {
+                for (var i = 0; i < nodes.length; i++) {
+                    if ((nodes[i].t === node.t && nodes[i].d === node.d))
+                        return nodes[i];
+                }
+            }
+
+		
 		this.getLinks = function () {
 		    return force.links();
 		    }
@@ -224,11 +235,44 @@ define(['d3', 'SM'], function(d3, SM) {
 	}
 
 	var graph;
+
+    $("#btnGetInfo").on("click",function(){
+        console.debug("btnGetInfo click");
+        console.debug({nodes:SM.graphSer.nodes,links:SM.graphSer.links});
+        console.debug(JSON.stringify({nodes:SM.graphSer.nodes,links:SM.graphSer.links}));
+        $.ajax("/update",{method:"POST",data:{nodes:SM.graphSer.nodes,links:SM.graphSer.links}
+        });
+    });
+
+    $("#btnGetData1").on("click",function(){
+        $.getJSON("data/data1.json",function(json){
+            SM.graphSer.init(SM.graphSer.svg,json);
+        });
+    });
+
+    $("#btnGetData2").on("click",function(){
+        $.getJSON("data/data2.json",function(json){
+            SM.graphSer.init(SM.graphSer.svg,json);
+        });
+    });
+
+    $("#btnClean").on("click",function(){
+         SM.graphSer.init(SM.graphSer.svg);
+    });
+
 	return {
 		init: function(svg) {
-			//graph = new myGraph(svg);
-			//SM.graphSer.setGraph(graph);
-			SM.graphSer.init(svg);
+
+//            SM.graphSer.init(svg);
+
+           $.getJSON("data/data1.json",function(json){
+               SM.graphSer.init(svg,json);
+           });
+
+
+//            graph = new myGraph(svg);
+//			SM.graphSer.setGraph(graph);
+//
 			return false;
             graph.addNode("PC-001", "2");
             graph.addNode("PC-002", "2");

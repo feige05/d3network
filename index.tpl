@@ -39,6 +39,12 @@
 		<article class="panel">
 			<div class="panel-head text-center">
 				<h4>网络图</h4>
+				<div class="form-group">
+                    <a id="btnGetInfo" class="btn btn-primary">发送当前配置</a>
+                    <a id="btnGetData1" class="btn btn-default">读取配置1</a>
+                    <a id="btnGetData2" class="btn btn-default">读取配置2</a>
+                    <a id="btnClean" class="btn btn-warning">清空</a>
+                </div>
 			</div>
 			<div id='paper' class="panel-body">
 				
